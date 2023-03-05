@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7fd140f0d9a9db06abf6a5839c48d1d5198574282bf5d6a15c8d0ba91636c8ad"
+            "sha256": "f0240e07b6eb4c2811990ec30efc9b20a28af973059c309f50553408654a419d"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -21,7 +21,7 @@
                 "sha256:39399a267c49b30d102c10411e67ab26374156a84b1aeb9fcd15140429ba49c5",
                 "sha256:8b45ebeaf8557f2d760c5c77b79f02ae12aee7c46c27c06014febab6f849bc87"
             ],
-            "markers": "python_version >= '3.7'",
+            "index": "pypi",
             "version": "==4.2.2"
         },
         "attrs": {
@@ -408,7 +408,7 @@
                 "sha256:e474390e60ed609cec869b0da796ad94f420bb057d86784191eefc62b65819ae",
                 "sha256:f76d097d12c82a535fda9dfe5e8dd4127952b45fea9b0276cb30cca5ea313fbc"
             ],
-            "markers": "python_version >= '3.8'",
+            "index": "pypi",
             "version": "==1.5.3"
         },
         "pdf2image": {
@@ -704,11 +704,11 @@
         },
         "rich": {
             "hashes": [
-                "sha256:125d96d20c92b946b983d0d392b84ff945461e5a06d3867e9f9e575f8697b67f",
-                "sha256:8aa57747f3fc3e977684f0176a88e789be314a99f99b43b75d1e9cb5dc6db9e9"
+                "sha256:91954fe80cfb7985727a467ca98a7618e5dd15178cc2da10f553b36a93859001",
+                "sha256:a104f37270bf677148d8acb07d33be1569eeee87e2d1beb286a4e9113caf6f2f"
             ],
             "markers": "python_full_version >= '3.7.0'",
-            "version": "==13.3.1"
+            "version": "==13.3.2"
         },
         "semver": {
             "hashes": [
@@ -836,6 +836,10 @@
             ],
             "markers": "python_version >= '3.4'",
             "version": "==0.20.0"
+        },
+        "voliboli-pdf-scraper": {
+            "editable": true,
+            "path": "./../PDFscraping"
         },
         "watchdog": {
             "hashes": [
