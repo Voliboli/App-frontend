@@ -10,8 +10,8 @@ st-pages = "*"
 tabula-py = "*"
 pdf2image = "*"
 voliboli-pdf-scraper = {editable = true, path = "./../PDFscraping"}
-altair = "*"
 pandas = "*"
+altair = "==5.0.0rc1"
 
 [dev-packages]
 

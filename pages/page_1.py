@@ -1,7 +1,4 @@
-import os
-import tabula as tb
 import streamlit as st
-from io import StringIO
 from pdf2image import convert_from_path
 from pathlib import Path
 import tempfile
@@ -11,6 +8,7 @@ from voliboli_pdf_scraper.main import process_pdf
 import voliboli_pdf_scraper.constants as constants
 import altair as alt
 import pandas as pd
+from streamlit.runtime.scriptrunner import RerunData,RerunException
 
 stp.show_pages(
     [
@@ -20,19 +18,18 @@ stp.show_pages(
     ]
 )
 
-# metadata
-STAT_DIRECTORY = 'stats'
-DEBUG = False
-
-# boundaries
-TEAM1_UB = 180
-TEAM1_LB = 340
-TEAM2_UB = 425
-TEAM2_LB = 580
-
 @st.cache_data
 def process_statistic(file, debug):
-    return process_pdf(file, debug)
+    result, date, location, ateam1, ateam2, players1, players2 = process_pdf(file, debug)
+    names1 = []
+    for player in players1:
+        names1.append(player[0])
+
+    names2 = []
+    for player in players2:
+        names2.append(player[0])
+
+    return result, date, location, ateam1, ateam2, players1, players2, names1, names2
 
 def show_pdf(file_path:str):
     """Show the PDF in Streamlit - That returns as html component"""
@@ -60,61 +57,64 @@ if uploaded_files is not None:
 
             file = tmp_file.name
 
-            result, date, location, ateam1, ateam2, players1, players2 = process_statistic(file, debug=False)
-
-            names1 = []
-            for player in players1:
-                names1.append(player[0])
-
-            names2 = []
-            for player in players2:
-                names2.append(player[0])
+            result, date, location, ateam1, ateam2, players1, players2, names1, names2 = process_statistic(file, debug=False)
 
             status = st.radio("Select Team: ", (ateam1, ateam2))
-            if (status == ateam1):
-                st.write(ateam1)
-                selection = st.multiselect(f"{ateam1} - Players: ",
-                                      names1)
-                for sel in selection:
-                    for player in players1:
-                        if sel == player[0]:
-                            #print(player)
-                            barchart_vals = player[2:4] + player[5:10] + player[12:16] + player[17:]
-                            #print(barchart_vals)
-                            vote = player[1]
-                            #print(vote)
-                            wl = player[4]
-                            #print(wl)
-                            pos_rec = player[10]
-                            #print(pos_rec)
-                            exc_rec = player[11]
-                            #print(exc_rec)
-                            att_pts = player[16]
-                            #print(att_pts)
-                            data = pd.DataFrame(barchart_vals).T
-                            data.columns = ["Total Points",
-                                            "Break Points",
-                                            "Total Serves",
-                                            "Serve Errors",
-                                            "Serve Points",
-                                            "Total Receptions",
-                                            "Reception Errors",
-                                            "Total Attacks",
-                                            "Attack Errors",
-                                            "Attack Blocks",
-                                            "Attack Points",
-                                            "Block Points"]
-                            '''
-                            altair_chart = alt.Chart(data).mark_bar().encode(
-                                x='Total Points'
-                            )
-                            st.altair_chart(altair_chart, use_container_width=True, theme="streamlit")
-                            '''
+            if "selection1" not in st.session_state:
+                st.session_state["selection1"] = []
+            if "selection2" not in st.session_state:
+                st.session_state["selection2"] = []
+
+            # NOTE: Weird way of achieving for the multi-select widget to updateX
+            # ############################################ DO NOT MODIFY #############################
+            def update_selection(key, selection):
+                st.session_state[key] = selection
+
+            selection1 = st.session_state["selection1"]
+            selection2 = st.session_state["selection2"]
+            last_selection = st.session_state["selection1"] + st.session_state["selection2"]
+            if status == ateam1:
+                selection1 = st.multiselect(f"{ateam1} - Players: ", names1, default=st.session_state["selection1"], on_change=update_selection, args=("selection1", selection1))
+                st.session_state["selection1"] = selection1
             else:
-                st.write(ateam2)
-                selection = st.multiselect(f"{ateam2} - Players: ",
-                                      names2)
-                for sel in selection:
-                    for player in players2:
-                        if sel == player[0]:
-                            st.write(player)
+                selection2 = st.multiselect(f"{ateam2} - Players: ", names2, default=st.session_state["selection2"], on_change=update_selection, args=("selection2", selection2))
+                st.session_state["selection2"] = selection2
+            ###########################################################################################
+            
+            selection = selection1 + selection2
+
+            for sel in selection:
+                for player in players1:
+                    if sel == player[0]:
+                        barchart_vals = player[:1] + player[2:4] + player[5:10] + player[12:16] + player[17:]
+                        vote = player[1]
+                        wl = player[4]
+                        pos_rec = player[10]
+                        exc_rec = player[11]
+                        att_pts = player[16]
+                        data = pd.DataFrame(barchart_vals).T
+                        data.columns = ["Player",
+                                        "Total Points",
+                                        "Break Points",
+                                        "Total Serves",
+                                        "Serve Errors",
+                                        "Serve Points",
+                                        "Total Receptions",
+                                        "Reception Errors",
+                                        "Total Attacks",
+                                        "Attack Errors",
+                                        "Attack Blocks",
+                                        "Attack Points",
+                                        "Block Points"]
+                        source = pd.DataFrame({"Category":list("AAABBBCCC"),
+                                            "Group":list("xyzxyzxyz"),
+                                            "Value":[0.1, 0.6, 0.9, 0.7, 0.2, 1.1, 0.6, 0.1, 0.2]})
+
+                        chart = alt.Chart(source).mark_bar().encode(
+                            x="Category:N",
+                            y="Value:Q",
+                            xOffset="Group:N",
+                            color="Group:N"
+                        )
+
+                        st.altair_chart(chart, use_container_width=True, theme="streamlit")
