@@ -9,12 +9,14 @@ import voliboli_pdf_scraper.constants as constants
 import altair as alt
 import pandas as pd
 from streamlit.runtime.scriptrunner import RerunData,RerunException
+import streamlit_authenticator as stauth
 
 stp.show_pages(
     [
         stp.Page("app.py", "Home", "🏠"),
         stp.Page("pages/page_1.py", "Upload & Visualize", "📄"),
-        stp.Page("pages/page_2.py", "Select & Analyze", "🏆")
+        stp.Page("pages/page_2.py", "Select & Analyze", "🏆"),
+        stp.Page("pages/page_3.py", "About", "💡")
     ]
 )
 

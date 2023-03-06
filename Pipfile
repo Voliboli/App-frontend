@@ -9,9 +9,10 @@ streamlit-authenticator = "*"
 st-pages = "*"
 tabula-py = "*"
 pdf2image = "*"
-voliboli-pdf-scraper = {editable = true, path = "./../PDFscraping"}
 pandas = "*"
 altair = "==5.0.0rc1"
+voliboli-pdf-scraper = {editable = true, path = "./../PDFscraping"}
+streamlit-timeline = "*"
 
 [dev-packages]
 

@@ -1,0 +1,19 @@
+{
+    "events": [
+      {
+        "media": {
+          "url": "https://drive.google.com/file/d/12qiPyRPi5i2L7rD1GzEJaUdsLrVCDmVh/view?usp=share_link",
+          "caption": "Initial Voliboli logo generated with the help of DALL-E"
+        },
+        "start_date": {
+          "month": "3",
+          "day": "10",
+          "year": "2023"
+        },
+        "text": {
+          "headline": "Launch Day",
+          "text": "<p>I am a one-man team and still a student. I am still trying to figure out how this app will fit in the world, but I am looking forward to the journey.</p>"
+        }
+      }
+    ]
+}
