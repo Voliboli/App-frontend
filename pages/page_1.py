@@ -58,6 +58,7 @@ if uploaded_files is not None:
             file = tmp_file.name
 
             result, date, location, ateam1, ateam2, players1, players2, names1, names2 = process_statistic(file, debug=False)
+            print(players1)
             fplayers1 = []
             fplayers2 = []
             for p1, p2 in zip(players1, players2):
@@ -94,17 +95,45 @@ if uploaded_files is not None:
             selection = selection1 + selection2
             num_players = len(selection)
 
-            values = []
+            votes = []
+            total_points = []
+            break_points = []
+            wl_points = []
+            total_serves = []
+            serve_errors = []
+            serve_points = []
+            total_receptions = []
+            error_receptions = []
+            pos_receptions = []
+            exc_receptions = []
+            total_attacks = []
+            error_attacks = []
+            block_attacks = []
+            pts_attacks = []
+            perc_attacks = []
+            blocks = []
+
+            fplayers = fplayers1 + fplayers2
             for sel in selection:
-                for player in fplayers1:
+                for player in fplayers:
                     if sel == player[0]:
-                        barchart_vals = player[2:4] + player[5:10] + player[12:16] + player[17:]
-                        values += barchart_vals
-                        vote = player[1]
-                        wl = player[4]
-                        pos_rec = player[10]
-                        exc_rec = player[11]
-                        att_pts = player[16]
+                        votes.append(player[1])
+                        total_points.append(player[2])
+                        break_points.append(player[3])
+                        wl_points.append(player[4])
+                        total_serves.append(player[5])
+                        serve_errors.append(player[6])
+                        serve_points.append(player[7])
+                        total_receptions.append(player[8])
+                        error_receptions.append(player[9])
+                        pos_receptions.append(player[10])
+                        exc_receptions.append(player[11])
+                        total_attacks.append(player[12])
+                        error_attacks.append(player[13])
+                        block_attacks.append(player[14])
+                        pts_attacks.append(player[15])
+                        perc_attacks.append(player[16])
+                        blocks.append(player[17])
             
             columns = ["Total Points",
                        "Break Points",
@@ -115,7 +144,7 @@ if uploaded_files is not None:
                        "Reception Errors",
                        "Total Attacks",
                        "Attack Errors",
-                       "Attack Blocks",
+                       "Blocked Attacks",
                        "Attack Points",
                        "Block Points"]
             
@@ -124,6 +153,9 @@ if uploaded_files is not None:
                 for _ in range(num_players):
                     categories.append(col)
             players_seq = selection * len(columns)
+            values = total_points + break_points + total_serves + serve_errors + \
+                        serve_points + total_receptions + error_receptions + total_attacks + \
+                        error_attacks + block_attacks + pts_attacks + block_attacks
             source = pd.DataFrame({"Category":list(categories),
                                 "Group":list(players_seq),
                                 "Value":values})
