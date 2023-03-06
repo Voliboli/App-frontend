@@ -19,7 +19,7 @@ stp.show_pages(
 )
 
 @st.cache_data
-def process_statistic(file, debug):
+def processing_statistics(file, debug):
     result, date, location, ateam1, ateam2, players1, players2 = process_pdf(file, debug)
     names1 = []
     for player in players1:
@@ -57,39 +57,50 @@ if uploaded_files is not None:
 
             file = tmp_file.name
 
-            result, date, location, ateam1, ateam2, players1, players2, names1, names2 = process_statistic(file, debug=False)
-            print(players1)
+            result, date, location, ateam1, ateam2, players1, players2, names1, names2 = processing_statistics(file, debug=False)
             fplayers1 = []
+            for p1 in players1:
+                fp1 = []
+                for e in p1:
+                    if e == '.':
+                        e = '0'
+                    out1 = e.replace('%', '').replace('(', '').replace(')', '').strip()
+                    fp1.append(out1)
+                fplayers1.append(fp1)
+
             fplayers2 = []
-            for p1, p2 in zip(players1, players2):
-                p1 = ['0' if e == '.' else e for e in p1]
-                fplayers1.append(p1)
-                p2 = ['0' if e == '.' else e for e in p2]
-                fplayers2.append(p2)
+            for p2 in players2:
+                fp2 = []
+                for e in p2:
+                    if e == '.':
+                        e = '0'
+                    out2 = e.replace('%', '').replace('(', '').replace(')', '').strip()
+                    fp2.append(out2)
+                fplayers2.append(fp2)
 
             print(fplayers1)
             print(fplayers2)
 
             status = st.radio("Select Team: ", (ateam1, ateam2))
-            if "selection1" not in st.session_state:
-                st.session_state["selection1"] = []
-            if "selection2" not in st.session_state:
-                st.session_state["selection2"] = []
+            if ("selection1_" + tmp_file.name) not in st.session_state:
+                st.session_state["selection1_" + tmp_file.name] = []
+            if ("selection2_" + tmp_file.name) not in st.session_state:
+                st.session_state["selection2_" + tmp_file.name] = []
 
             # NOTE: Weird way of achieving for the multi-select widget to updateX
             # ############################################ DO NOT MODIFY #############################
             def update_selection(key, selection):
                 st.session_state[key] = selection
 
-            selection1 = st.session_state["selection1"]
-            selection2 = st.session_state["selection2"]
-            last_selection = st.session_state["selection1"] + st.session_state["selection2"]
+            selection1 = st.session_state["selection1_" + tmp_file.name]
+            selection2 = st.session_state["selection2_" + tmp_file.name]
+            last_selection = st.session_state["selection1_" + tmp_file.name] + st.session_state["selection2_" + tmp_file.name]
             if status == ateam1:
-                selection1 = st.multiselect(f"{ateam1} - Players: ", names1, default=st.session_state["selection1"], on_change=update_selection, args=("selection1", selection1))
-                st.session_state["selection1"] = selection1
+                selection1 = st.multiselect(f"{ateam1} - Players: ", names1, default=st.session_state["selection1_" + tmp_file.name], on_change=update_selection, args=("selection1_" + tmp_file.name, selection1))
+                st.session_state["selection1_" + tmp_file.name] = selection1
             else:
-                selection2 = st.multiselect(f"{ateam2} - Players: ", names2, default=st.session_state["selection2"], on_change=update_selection, args=("selection2", selection2))
-                st.session_state["selection2"] = selection2
+                selection2 = st.multiselect(f"{ateam2} - Players: ", names2, default=st.session_state["selection2_" + tmp_file.name], on_change=update_selection, args=("selection2_" + tmp_file.name, selection2))
+                st.session_state["selection2_" + tmp_file.name] = selection2
             ###########################################################################################
             
             selection = selection1 + selection2
@@ -126,16 +137,16 @@ if uploaded_files is not None:
                         serve_points.append(player[7])
                         total_receptions.append(player[8])
                         error_receptions.append(player[9])
-                        pos_receptions.append(player[10])
-                        exc_receptions.append(player[11])
+                        pos_receptions.append(str(int(player[10])/100))
+                        exc_receptions.append(str(int(player[11])/100))
                         total_attacks.append(player[12])
                         error_attacks.append(player[13])
                         block_attacks.append(player[14])
                         pts_attacks.append(player[15])
-                        perc_attacks.append(player[16])
+                        perc_attacks.append(str(int(player[16])/100))
                         blocks.append(player[17])
             
-            columns = ["Total Points",
+            columns1 = ["Total Points",
                        "Break Points",
                        "Total Serves",
                        "Serve Errors",
@@ -148,23 +159,49 @@ if uploaded_files is not None:
                        "Attack Points",
                        "Block Points"]
             
-            categories = []
-            for col in columns:
+            categories1 = []
+            for col in columns1:
                 for _ in range(num_players):
-                    categories.append(col)
-            players_seq = selection * len(columns)
-            values = total_points + break_points + total_serves + serve_errors + \
+                    categories1.append(col)
+            players_seq1 = selection * len(columns1)
+            values1 = total_points + break_points + total_serves + serve_errors + \
                         serve_points + total_receptions + error_receptions + total_attacks + \
                         error_attacks + block_attacks + pts_attacks + block_attacks
-            source = pd.DataFrame({"Category":list(categories),
-                                "Group":list(players_seq),
-                                "Value":values})
-
-            chart = alt.Chart(source).mark_bar().encode(
+            print(len(categories1))
+            print(len(players_seq1))
+            print(len(values1))
+            source1 = pd.DataFrame({"Category":list(categories1),
+                                "Group":list(players_seq1),
+                                "Value":values1})
+            chart1 = alt.Chart(source1).mark_bar().encode(
                 x="Category:N",
                 y="Value:Q",
                 xOffset="Group:N",
                 color="Group:N"
             )
+            st.altair_chart(chart1, use_container_width=True, theme="streamlit")
 
-            st.altair_chart(chart, use_container_width=True, theme="streamlit")
+
+            columns2 = ["Positive Reception",
+                        "Excellent Reception",
+                        "Attack Efficiency"]
+            categories2 = []
+            for col in columns2:
+                for _ in range(num_players):
+                    categories2.append(col)
+            values2 = pos_receptions + exc_receptions + perc_attacks
+            players_seq2 = selection * len(columns2)
+            print(len(categories2))
+            print(len(players_seq2))
+            print(len(values2))
+            source2 = pd.DataFrame({"Category":list(categories2),
+                                "Group":list(players_seq2),
+                                "Value":values2})
+
+            chart2 = alt.Chart(source2).mark_bar().encode(
+                x=alt.X('Value:Q', axis=alt.Axis(format='%')),
+                y="Category:N",
+                yOffset="Group:N",
+                color="Group:N"
+            )
+            st.altair_chart(chart2, use_container_width=True, theme="streamlit")
