@@ -78,9 +78,6 @@ if uploaded_files is not None:
                     fp2.append(out2)
                 fplayers2.append(fp2)
 
-            print(fplayers1)
-            print(fplayers2)
-
             status = st.radio("Select Team: ", (ateam1, ateam2))
             if ("selection1_" + tmp_file.name) not in st.session_state:
                 st.session_state["selection1_" + tmp_file.name] = []
@@ -167,9 +164,6 @@ if uploaded_files is not None:
             values1 = total_points + break_points + total_serves + serve_errors + \
                         serve_points + total_receptions + error_receptions + total_attacks + \
                         error_attacks + block_attacks + pts_attacks + block_attacks
-            print(len(categories1))
-            print(len(players_seq1))
-            print(len(values1))
             source1 = pd.DataFrame({"Category":list(categories1),
                                 "Group":list(players_seq1),
                                 "Value":values1})
@@ -191,13 +185,9 @@ if uploaded_files is not None:
                     categories2.append(col)
             values2 = pos_receptions + exc_receptions + perc_attacks
             players_seq2 = selection * len(columns2)
-            print(len(categories2))
-            print(len(players_seq2))
-            print(len(values2))
             source2 = pd.DataFrame({"Category":list(categories2),
                                 "Group":list(players_seq2),
                                 "Value":values2})
-
             chart2 = alt.Chart(source2).mark_bar().encode(
                 x=alt.X('Value:Q', axis=alt.Axis(format='%')),
                 y="Category:N",
@@ -205,3 +195,23 @@ if uploaded_files is not None:
                 color="Group:N"
             )
             st.altair_chart(chart2, use_container_width=True, theme="streamlit")
+
+            columns3 = ["W-L Points"]
+            categories3 = []
+            for col in columns3:
+                for _ in range(num_players):
+                    categories3.append(col)
+            values3 = wl_points
+            players_seq3 = selection * len(columns3)
+            source3 = pd.DataFrame({"Category":list(categories3),
+                                "Group":list(players_seq3),
+                                "Value":values3})
+
+            chart3 = alt.Chart(source3).mark_bar().encode(
+                x="Category:N",
+                y="Value:Q",
+                color="Group:N",
+                xOffset="Group:N",
+            )
+
+            st.altair_chart(chart3, use_container_width=True, theme="streamlit")
