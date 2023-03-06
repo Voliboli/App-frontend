@@ -58,6 +58,16 @@ if uploaded_files is not None:
             file = tmp_file.name
 
             result, date, location, ateam1, ateam2, players1, players2, names1, names2 = process_statistic(file, debug=False)
+            fplayers1 = []
+            fplayers2 = []
+            for p1, p2 in zip(players1, players2):
+                p1 = ['0' if e == '.' else e for e in p1]
+                fplayers1.append(p1)
+                p2 = ['0' if e == '.' else e for e in p2]
+                fplayers2.append(p2)
+
+            print(fplayers1)
+            print(fplayers2)
 
             status = st.radio("Select Team: ", (ateam1, ateam2))
             if "selection1" not in st.session_state:
@@ -82,39 +92,47 @@ if uploaded_files is not None:
             ###########################################################################################
             
             selection = selection1 + selection2
+            num_players = len(selection)
 
+            values = []
             for sel in selection:
-                for player in players1:
+                for player in fplayers1:
                     if sel == player[0]:
-                        barchart_vals = player[:1] + player[2:4] + player[5:10] + player[12:16] + player[17:]
+                        barchart_vals = player[2:4] + player[5:10] + player[12:16] + player[17:]
+                        values += barchart_vals
                         vote = player[1]
                         wl = player[4]
                         pos_rec = player[10]
                         exc_rec = player[11]
                         att_pts = player[16]
-                        data = pd.DataFrame(barchart_vals).T
-                        data.columns = ["Player",
-                                        "Total Points",
-                                        "Break Points",
-                                        "Total Serves",
-                                        "Serve Errors",
-                                        "Serve Points",
-                                        "Total Receptions",
-                                        "Reception Errors",
-                                        "Total Attacks",
-                                        "Attack Errors",
-                                        "Attack Blocks",
-                                        "Attack Points",
-                                        "Block Points"]
-                        source = pd.DataFrame({"Category":list("AAABBBCCC"),
-                                            "Group":list("xyzxyzxyz"),
-                                            "Value":[0.1, 0.6, 0.9, 0.7, 0.2, 1.1, 0.6, 0.1, 0.2]})
+            
+            columns = ["Total Points",
+                       "Break Points",
+                       "Total Serves",
+                       "Serve Errors",
+                       "Serve Points",
+                       "Total Receptions",
+                       "Reception Errors",
+                       "Total Attacks",
+                       "Attack Errors",
+                       "Attack Blocks",
+                       "Attack Points",
+                       "Block Points"]
+            
+            categories = []
+            for col in columns:
+                for _ in range(num_players):
+                    categories.append(col)
+            players_seq = selection * len(columns)
+            source = pd.DataFrame({"Category":list(categories),
+                                "Group":list(players_seq),
+                                "Value":values})
 
-                        chart = alt.Chart(source).mark_bar().encode(
-                            x="Category:N",
-                            y="Value:Q",
-                            xOffset="Group:N",
-                            color="Group:N"
-                        )
+            chart = alt.Chart(source).mark_bar().encode(
+                x="Category:N",
+                y="Value:Q",
+                xOffset="Group:N",
+                color="Group:N"
+            )
 
-                        st.altair_chart(chart, use_container_width=True, theme="streamlit")
+            st.altair_chart(chart, use_container_width=True, theme="streamlit")
