@@ -13,6 +13,7 @@ stp.show_pages(
         stp.Page("pages/page_4.py", "Register", "🔒")
     ]
 )
+st.sidebar.image("assets/Voliboli.jpg", use_column_width=True)
 
 with open('auth.yaml') as file:
     config = yaml.load(file, Loader=yaml.loader.SafeLoader)
@@ -27,6 +28,8 @@ authenticator._check_cookie() # NOTE: bug in the imported library (need to call 
 
 if st.session_state["authentication_status"]:
     authenticator.logout('Logout', 'sidebar')
+else:
+    name, authentication_status, username = authenticator.login('Login', 'sidebar')
 
 st.title("About 💡")
 st.write("**Teodor Janez Podobnik**, Creator of Voliboli")
@@ -47,4 +50,4 @@ with open('timeline.json', "r") as f:
     data = f.read()
 
 # render timeline
-timeline(data, height=800)
+timeline(data, height=426)

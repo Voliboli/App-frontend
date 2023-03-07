@@ -18,6 +18,7 @@ stp.show_pages(
         stp.Page("pages/page_4.py", "Register", "🔒")
     ]
 )
+st.sidebar.image("assets/Voliboli.jpg", use_column_width=True)
 
 @st.cache_data
 def processing_statistics(file, debug):
@@ -56,7 +57,7 @@ if st.session_state["authentication_status"]:
     st.write("Welcome to the PDF analysis page!")
     st.write("To view and analyze the statistics of your PDF files, please upload one or multiple documents by selecting or drag-dropping files into the denoted area. \
              Once your files are uploaded, our analysis tools will provide you with a detailed breakdown of the document's statistics. ")
-    uploaded_files = st.file_uploader(label="Upload PDF files", type=['pdf'], accept_multiple_files=True)
+    uploaded_files = st.file_uploader(label="**Upload PDF files**", type=['pdf'], accept_multiple_files=True)
     if uploaded_files is not None:
         for uploaded_file in uploaded_files:
             # Make temp file path from uploaded file
@@ -240,7 +241,6 @@ elif st.session_state["authentication_status"] is False:
               Thank you for your understanding and cooperation.")
 elif st.session_state["authentication_status"] is None:
     name, authentication_status, username = authenticator.login('Login', 'sidebar')
-    st.sidebar.warning('Please enter username and password')
     st.warning("We apologize for the inconvenience, but to access this page, please log in to your account. \
               Your security is our top priority, and this login requirement helps to ensure that your personal information remains protected. \
               Thank you for your understanding and cooperation.")

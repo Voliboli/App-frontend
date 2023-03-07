@@ -12,6 +12,7 @@ stp.show_pages(
         stp.Page("pages/page_4.py", "Register", "🔒")
     ]
 )
+st.sidebar.image("assets/Voliboli.jpg", use_column_width=True)
 
 with open('auth.yaml') as file:
     config = yaml.load(file, Loader=yaml.loader.SafeLoader)
@@ -30,6 +31,8 @@ if st.session_state["authentication_status"]:
     st.write("Welcome to the Statistics Database page!")
     st.write("Here, you can search through our extensive database of player statistics, compare players against each other, and evaluate their performance throughout the season. \
               To get started, use the search bar to find the players you're interested in or select multiple players to compare their statistics side-by-side.")
+    st.write("This is still under active development but is planned to come out soon!")
+    st.image("assets/coming_soon.jpg", use_column_width=True)
 elif st.session_state["authentication_status"] is False:
     name, authentication_status, username = authenticator.login('Login', 'sidebar')
     st.sidebar.error('Username/password is incorrect')
@@ -38,7 +41,6 @@ elif st.session_state["authentication_status"] is False:
               Thank you for your understanding and cooperation.")
 elif st.session_state["authentication_status"] is None:
     name, authentication_status, username = authenticator.login('Login', 'sidebar')
-    st.sidebar.warning('Please enter username and password')
     st.warning("We apologize for the inconvenience, but to access this page, please log in to your account. \
               Your security is our top priority, and this login requirement helps to ensure that your personal information remains protected. \
               Thank you for your understanding and cooperation.")
