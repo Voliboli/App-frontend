@@ -5,7 +5,6 @@ name = "pypi"
 
 [packages]
 streamlit = "*"
-streamlit-authenticator = "*"
 st-pages = "*"
 tabula-py = "*"
 pdf2image = "*"
@@ -13,6 +12,10 @@ pandas = "*"
 altair = "==5.0.0rc1"
 voliboli-pdf-scraper = {editable = true, path = "./../PDFscraping"}
 streamlit-timeline = "*"
+pyyaml = "*"
+streamlit-authenticator = "*"
+extra-streamlit-components = "*"
+cookies = "*"
 
 [dev-packages]
 

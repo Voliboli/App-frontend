@@ -1,18 +1,34 @@
+import yaml
 import streamlit as st
 import st_pages as stp
 from streamlit_timeline import timeline
+import streamlit_authenticator as stauth
 
-st.set_page_config(page_title="About", page_icon="🏐")
 stp.show_pages(
     [
-        stp.Page("app.py", "Home", "🏠"),
+        stp.Page("app.py", "Main Page", "🏠"),
         stp.Page("pages/page_1.py", "Upload & Visualize", "📄"),
         stp.Page("pages/page_2.py", "Select & Analyze", "🏆"),
-        stp.Page("pages/page_3.py", "About", "💡")
+        stp.Page("pages/page_3.py", "About", "💡"),
+        stp.Page("pages/page_4.py", "Register", "🔒")
     ]
 )
 
-st.title("About")
+with open('auth.yaml') as file:
+    config = yaml.load(file, Loader=yaml.loader.SafeLoader)
+authenticator = stauth.Authenticate(
+    config['credentials'],
+    config['cookie']['name'],
+    config['cookie']['key'],
+    config['cookie']['expiry_days'],
+    config['preauthorized']
+)
+authenticator._check_cookie() # NOTE: bug in the imported library (need to call it manually)
+
+if st.session_state["authentication_status"]:
+    authenticator.logout('Logout', 'sidebar')
+
+st.title("About 💡")
 st.write("**Teodor Janez Podobnik**, Creator of Voliboli")
 st.write("")
 st.write("As the creator of Voliboli, I am passionate about using technology to help people improve their volleyball skills and understanding of the game. \
