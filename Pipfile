@@ -4,7 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-streamlit = "*"
 st-pages = "*"
 tabula-py = "*"
 pandas = "*"
@@ -13,6 +12,7 @@ streamlit-timeline = "*"
 pyyaml = "*"
 streamlit-authenticator = "*"
 voliboli-pdf-scraper = "*"
+streamlit = {subdirectory = "lib", editable = true, git = "https://github.com/Voliboli/streamlit.git"}
 
 [dev-packages]
 
