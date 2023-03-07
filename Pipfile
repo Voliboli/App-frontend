@@ -12,7 +12,7 @@ altair = "==5.0.0rc1"
 streamlit-timeline = "*"
 pyyaml = "*"
 streamlit-authenticator = "*"
-voliboli-pdf-scraper = {editable = true, git = "https://github.com/Voliboli/PDFscraping.git"}
+voliboli-pdf-scraper = "*"
 
 [dev-packages]
 

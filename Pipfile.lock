@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7b41edb9cf795c61217317261194a44aac5b1a53981e2990e3fdc9f593ea9ea7"
+            "sha256": "93dd8825889536ffff106ce783253500f2eb55259640f67866505fcdb9aa2088"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -818,9 +818,13 @@
             "version": "==0.20.0"
         },
         "voliboli-pdf-scraper": {
-            "editable": true,
-            "git": "https://github.com/Voliboli/PDFscraping.git",
-            "ref": "614b611aa72c81aa427803845a8d0ae0b4197f63"
+            "hashes": [
+                "sha256:2675887763e2e2f2d5676555e74a3c0971f44d1ffaf393a57442c41bb2a6e10b",
+                "sha256:99b744fecb15c6f538ed272e4ea166588afc45037a8497ca02e82e0ce846a462",
+                "sha256:a6b92e9011fdcc937bae73775585a8c2229148e45dd906de2a8d2e18ebea37f4"
+            ],
+            "index": "pypi",
+            "version": "==1.0"
         },
         "watchdog": {
             "hashes": [
