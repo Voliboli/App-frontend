@@ -8,11 +8,11 @@ st-pages = "*"
 tabula-py = "*"
 pandas = "*"
 altair = "==5.0.0rc1"
-streamlit-timeline = "*"
 pyyaml = "*"
-streamlit-authenticator = "*"
 voliboli-pdf-scraper = "*"
 streamlit = {subdirectory = "lib", editable = true, git = "https://github.com/Voliboli/streamlit.git"}
+streamlit-timeline = {editable = true, git = "https://github.com/Voliboli/streamlit-timeline.git"}
+streamlit-authenticator = {editable = true, git = "https://github.com/Voliboli/Streamlit-Authenticator.git"}
 
 [dev-packages]
 
