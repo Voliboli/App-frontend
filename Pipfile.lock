@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e9bc5bab2d312f3f72e6b4d9b12d473a7823b5cec1c9e4f6b7cf796c636cefda"
+            "sha256": "df5b5b8938e26355cfc579751ced6099282361c80b8ee6db52e84f4f8df34fd0"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -171,6 +171,14 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==8.1.3"
+        },
+        "custom-streamlit": {
+            "hashes": [
+                "sha256:4641143b76077fa4e06dc4f869dabf3059c490ede1f7294191f7a4497fbb2d90",
+                "sha256:8669d6fafd001f77c1f204d3f910a8306cd6428cfcca35a9a0043d4ea1b56ac9"
+            ],
+            "index": "pypi",
+            "version": "==1.19.0"
         },
         "decorator": {
             "hashes": [
@@ -603,7 +611,7 @@
                 "sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86",
                 "sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==2.8.2"
         },
         "pytz": {
@@ -696,7 +704,7 @@
                 "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926",
                 "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==1.16.0"
         },
         "smmap": {
@@ -716,20 +724,26 @@
             "version": "==0.3.5"
         },
         "streamlit": {
-            "editable": true,
-            "git": "https://github.com/Voliboli/streamlit.git",
-            "ref": "1f47078199e17865b645e25f2d6ede99c5e67e22",
-            "subdirectory": "lib"
+            "hashes": [
+                "sha256:5387c89a9e930b97d46446516cf43f9156e1863713867050c7021cf97f10c0b3",
+                "sha256:e9793d351af5d4f7821c2ea81babf1c78cdbba69f057cf80d602dec56c4408f1"
+            ],
+            "markers": "python_version >= '3.7' and python_full_version != '3.9.7'",
+            "version": "==1.19.0"
         },
         "streamlit-authenticator": {
-            "editable": true,
-            "git": "https://github.com/Voliboli/Streamlit-Authenticator.git",
-            "ref": "1f660ae78e0d9d5a0f4ae1c5ed9cf436165e2207"
+            "hashes": [
+                "sha256:dc40a8ab0c422c2ff7699204af16bf2d686e0359c18627b60f8cd1bac63d55d8"
+            ],
+            "index": "pypi",
+            "version": "==0.2.1"
         },
         "streamlit-timeline": {
-            "editable": true,
-            "git": "https://github.com/Voliboli/streamlit-timeline.git",
-            "ref": "0cd80ed0c0fac60ec91fedf8860c57dd4e76cabf"
+            "hashes": [
+                "sha256:6d77e418cc08211d0cbe87f21cb9b57038b1cda68c364e5a4e518496f6db955b"
+            ],
+            "index": "pypi",
+            "version": "==0.0.2"
         },
         "tabula-py": {
             "hashes": [
@@ -744,7 +758,7 @@
                 "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b",
                 "sha256:b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f"
             ],
-            "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2'",
+            "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==0.10.2"
         },
         "toolz": {
@@ -777,7 +791,7 @@
                 "sha256:5cb5f4a79139d699607b3ef622a1dedafa84e115ab0024e0d9c044a9479ca7cb",
                 "sha256:fb33085c39dd998ac16d1431ebc293a8b3eedd00fd4a32de0ff79002c19511b4"
             ],
-            "markers": "python_version >= '3.7'",
+            "markers": "python_version < '3.11'",
             "version": "==4.5.0"
         },
         "tzdata": {
@@ -851,7 +865,7 @@
                 "sha256:ea5d86d1bcf4a9d24610aa2f6f25492f441960cf04aed2bd9a97db439b643a7b",
                 "sha256:efe3252137392a471a2174d721e1037a0e6a5da7beb72a021e662b7000a9903f"
             ],
-            "markers": "python_version >= '3.6'",
+            "markers": "platform_system != 'Darwin'",
             "version": "==2.3.1"
         },
         "zipp": {
