@@ -20,7 +20,7 @@ stp.show_pages(
 )
 st.sidebar.image("assets/Voliboli.jpg", use_column_width=True)
 
-@st.cache_data
+@st.cache_data(persist=True, show_spinner="Processing match statistics...")
 def processing_statistics(file, debug):
     result, date, location, ateam1, ateam2, players1, players2 = process_pdf(file, debug)
     names1 = []
