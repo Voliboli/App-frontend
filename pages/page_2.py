@@ -38,9 +38,9 @@ elif st.session_state["authentication_status"] is False:
     st.sidebar.error('Username/password is incorrect')
     st.warning("We apologize for the inconvenience, but to access this page, please log in to your account. \
               Your security is our top priority, and this login requirement helps to ensure that your personal information remains protected. \
-              Thank you for your understanding and cooperation.")
+              Thank you for your understanding.")
 elif st.session_state["authentication_status"] is None:
     name, authentication_status, username = authenticator.login('Login', 'sidebar')
     st.warning("We apologize for the inconvenience, but to access this page, please log in to your account. \
               Your security is our top priority, and this login requirement helps to ensure that your personal information remains protected. \
-              Thank you for your understanding and cooperation.")
+              Thank you for your understanding.")
