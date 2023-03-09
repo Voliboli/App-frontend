@@ -3,6 +3,8 @@ import st_pages as stp
 import streamlit_authenticator as stauth
 import streamlit as st
 
+st.set_page_config(page_title="Main Page", page_icon="🏠", layout="wide", initial_sidebar_state="expanded")
+
 stp.show_pages(
     [
         stp.Page("app.py", "Main Page", "🏠"),
