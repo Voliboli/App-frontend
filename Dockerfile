@@ -13,6 +13,6 @@ RUN pipenv install --deploy --ignore-pipfile
 
 COPY . .
 
-EXPOSE 8501
+EXPOSE 80
 
-CMD ["pipenv", "run", "streamlit", "run", "app.py"]
+CMD ["pipenv", "run", "streamlit", "run", "app.py", "--server.port", "80"]
