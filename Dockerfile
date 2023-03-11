@@ -16,4 +16,4 @@ COPY . .
 
 EXPOSE 80
 
-CMD ["pipenv", "run", "streamlit", "run", "app.py", "--server.port", "80"]
+CMD ["pipenv", "run", "streamlit", "run", "Main_Page.py", "--server.port", "80"]

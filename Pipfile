@@ -4,15 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-st-pages = "*"
-tabula-py = "*"
-pandas = "*"
+st-pages = "==0.3.5"
+tabula-py = "==2.7.0"
+pandas = "==1.5.3"
 altair = "==5.0.0rc1"
-pyyaml = "*"
-custom-streamlit = "*"
-streamlit-timeline = "*"
-streamlit-authenticator = "*"
 voliboli-pdf-scraper = "*"
+custom-streamlit = "==1.19.0"
+pyyaml = "==6.0"
+streamlit-authenticator = "==0.2.1"
+streamlit-timeline = "==0.0.2"
 
 [dev-packages]
 

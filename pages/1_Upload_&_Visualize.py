@@ -12,11 +12,11 @@ from voliboli_pdf_scraper.main import process_pdf
 
 stp.show_pages(
     [
-        stp.Page("app.py", "Main Page", "🏠"),
-        stp.Page("pages/page_1.py", "Upload & Visualize", "📄"),
-        stp.Page("pages/page_2.py", "Select & Analyze", "🏆"),
-        stp.Page("pages/page_3.py", "Register", "🔒"),
-        stp.Page("pages/page_4.py", "About", "💡")
+        stp.Page("Main_Page.py", "Main Page", "🏠"),
+        stp.Page("pages/1_Upload_&_Visualize.py", "Upload & Visualize", "📄"),
+        stp.Page("pages/2_Select_&_Analyze.py", "Select & Analyze", "🏆"),
+        stp.Page("pages/3_Register.py", "Register", "🔒"),
+        stp.Page("pages/4_About.py", "About", "💡")
     ]
 )
 st.sidebar.image("assets/Voliboli.jpg", use_column_width=True)
