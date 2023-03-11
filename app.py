@@ -3,15 +3,15 @@ import st_pages as stp
 import streamlit_authenticator as stauth
 import streamlit as st
 
-st.set_page_config(page_title="Main Page", page_icon="🏠", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(page_title="Main Page", page_icon="🏠", layout="wide", initial_sidebar_state="auto")
 
 stp.show_pages(
     [
         stp.Page("app.py", "Main Page", "🏠"),
         stp.Page("pages/page_1.py", "Upload & Visualize", "📄"),
         stp.Page("pages/page_2.py", "Select & Analyze", "🏆"),
-        stp.Page("pages/page_3.py", "About", "💡"),
-        stp.Page("pages/page_4.py", "Register", "🔒")
+        stp.Page("pages/page_3.py", "Register", "🔒"),
+        stp.Page("pages/page_4.py", "About", "💡")
     ]
 )
 st.sidebar.image("assets/Voliboli.jpg", use_column_width=True)

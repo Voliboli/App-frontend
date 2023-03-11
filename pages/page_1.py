@@ -1,4 +1,5 @@
 from pathlib import Path
+import sys
 import tempfile
 import base64
 import altair as alt
@@ -14,8 +15,8 @@ stp.show_pages(
         stp.Page("app.py", "Main Page", "🏠"),
         stp.Page("pages/page_1.py", "Upload & Visualize", "📄"),
         stp.Page("pages/page_2.py", "Select & Analyze", "🏆"),
-        stp.Page("pages/page_3.py", "About", "💡"),
-        stp.Page("pages/page_4.py", "Register", "🔒")
+        stp.Page("pages/page_3.py", "Register", "🔒"),
+        stp.Page("pages/page_4.py", "About", "💡")
     ]
 )
 st.sidebar.image("assets/Voliboli.jpg", use_column_width=True)
@@ -60,7 +61,7 @@ if st.session_state["authentication_status"]:
             fp = Path(uploaded_file.name)
             fp.write_bytes(uploaded_file.getvalue())
             try:
-                result, date, location, ateam1, ateam2, players1, players2, names1, names2 = processing_statistics(fp, debug=False)
+                result, date, location, ateam1, ateam2, players1, players2, names1, names2 = processing_statistics(fp, debug=True)
             except:
                 st.error("Failed processing PDF. Sorry for the inconvenience - this will be reported to the maintainers.")
                 continue

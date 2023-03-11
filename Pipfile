@@ -9,10 +9,10 @@ tabula-py = "*"
 pandas = "*"
 altair = "==5.0.0rc1"
 pyyaml = "*"
-voliboli-pdf-scraper = "*"
 custom-streamlit = "*"
 streamlit-timeline = "*"
 streamlit-authenticator = "*"
+voliboli-pdf-scraper = "*"
 
 [dev-packages]
 

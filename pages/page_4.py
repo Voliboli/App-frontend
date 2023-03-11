@@ -1,6 +1,7 @@
 import yaml
 import streamlit as st
 import st_pages as stp
+from streamlit_timeline import timeline
 import streamlit_authenticator as stauth
 
 stp.show_pages(
@@ -8,8 +9,8 @@ stp.show_pages(
         stp.Page("app.py", "Main Page", "🏠"),
         stp.Page("pages/page_1.py", "Upload & Visualize", "📄"),
         stp.Page("pages/page_2.py", "Select & Analyze", "🏆"),
-        stp.Page("pages/page_3.py", "About", "💡"),
-        stp.Page("pages/page_4.py", "Register", "🔒")
+        stp.Page("pages/page_3.py", "Register", "🔒"),
+        stp.Page("pages/page_4.py", "About", "💡")
     ]
 )
 st.sidebar.image("assets/Voliboli.jpg", use_column_width=True)
@@ -25,41 +26,28 @@ authenticator = stauth.Authenticate(
 )
 authenticator._check_cookie() # NOTE: bug in the imported library (need to call it manually)
 
-st.title("Register 🔒")
-st.write("Welcome to our registration page!")
-
 if st.session_state["authentication_status"]:
     authenticator.logout('Logout', 'sidebar')
-    st.success("You have already successfuly registered 🙌")
-elif st.session_state["authentication_status"] is False:
+else:
     name, authentication_status, username = authenticator.login('Login', 'sidebar')
-    st.write("By creating an account, you will gain access to all the features of our platform, and more.")
-    st.write("To get started, simply fill out the form with your information. \
-          Please ensure that all the information provided is accurate and up-to-date. \
-          Once you have completed the form, select the **`Register`** button to create your account.")
-    st.sidebar.error('Username/password is incorrect')
-elif st.session_state["authentication_status"] is None:
-    name, authentication_status, username = authenticator.login('Login', 'sidebar')
-    st.write("By creating an account, you will gain access to all the features of our platform, and more.")
-    st.write("To get started, simply fill out the form with your information. \
-          Please ensure that all the information provided is accurate and up-to-date. \
-          Once you have completed the form, select the **`Register`** button to create your account.")
-    try:
-        if authenticator.register_user('Register user', preauthorization=False):
-            st.success('User registered successfully 🙌')
 
-            # Add used to .yaml authentication file
-            with open('auth.yaml', 'w') as file:
-                yaml.dump(config, file, default_flow_style=False)
+st.title("About 💡")
+st.write("**Teodor Janez Podobnik**, Creator of Voliboli")
+st.write("")
+st.write("As the creator of Voliboli, I am passionate about using technology to help people improve their volleyball skills and understanding of the game. \
+           With years of experience as a player, I understand the importance of data-driven decision-making in sports. \
+           My vision for Voliboli is to **provide volleyball enthusiasts with an easy-to-use platform for analyzing and comparing statistics.** \
+           I believe that data visualization is key to unlocking insights and improving performance, and I have worked tirelessly to create a user-friendly interface that makes data analysis accessible to everyone.")
+st.write("")
+st.write("When I'm not working on Voliboli or playing volleyball, I enjoy working my two part-time jobs as a Cloud Architect or hanging out with friends. \
+           I believe that a well-rounded life is essential to success in any endeavor, and I strive to bring that perspective to everything I do. \
+           Thank you for choosing Voliboli. I am confident that our platform will help you take your volleyball analysis to the next level, and **I look forward to hearing your feedback and suggestions for how we can continue to improve.**")
 
-            # TODO: Redirect to main page - not yet implemented by streamlit dev team
-            st.header("Congratulations! 🎉")
-            st.write("You have successfully registered with Voliboli organization. \
-                    We are thrilled to have you as a part of our community. \
-                    You can now login to your account and start exploring our exciting features for FREE. \
-                    Thank you for choosing Voliboli, and we look forward to providing you with a delightful experience!")
-    except Exception as e:
-        st.error(e)
-    st.write("By registering with us, you agree to our terms and conditions and privacy policy. \
-          We take your privacy seriously and will never share your personal information with third parties without your consent. \
-          Thank you for choosing our platform, and we look forward to providing you with a seamless and enjoyable experience!")
+
+# load data
+data = None
+with open('timeline.json', "r") as f:
+    data = f.read()
+
+# render timeline
+timeline(data, height=426)
