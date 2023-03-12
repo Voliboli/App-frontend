@@ -1,0 +1,13 @@
+cookie:
+  expiry_days: 30
+  key: jwt_signature_key
+  name: jwt_token
+credentials:
+  usernames:
+    dorkamotorka:
+      email: teo.podobnik1234@gmail.com
+      name: Teodor Janez Podobnik
+      password: $2b$12$IgyhjMcXh15UL9Vj6AZTXeNBgLQ360Tnsaxje1svQO/U5AThB3AUC
+preauthorized:
+  emails:
+  - teo.podobnik1234@gmail.com
