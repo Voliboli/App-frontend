@@ -14,7 +14,7 @@ stp.show_pages(
 )
 st.sidebar.image("assets/Voliboli.jpg", use_column_width=True)
 
-with open('auth.yaml') as file:
+with open('auth/auth.yaml') as file:
     config = yaml.load(file, Loader=yaml.loader.SafeLoader)
 authenticator = stauth.Authenticate(
     config['credentials'],
@@ -49,7 +49,7 @@ elif st.session_state["authentication_status"] is None:
             st.success('User registered successfully 🙌')
 
             # Add used to .yaml authentication file
-            with open('auth.yaml', 'w') as file:
+            with open('auth/auth.yaml', 'w') as file:
                 yaml.dump(config, file, default_flow_style=False)
 
             # TODO: Redirect to main page - not yet implemented by streamlit dev team

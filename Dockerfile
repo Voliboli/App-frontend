@@ -10,10 +10,10 @@ WORKDIR ${PROJECT_DIR}
 COPY Pipfile .
 COPY Pipfile.lock .
 
-RUN pipenv install --deploy --ignore-pipfile
+RUN pipenv install --system --deploy --ignore-pipfile
 
 COPY . .
 
 EXPOSE 80
 
-CMD ["pipenv", "run", "streamlit", "run", "Main_Page.py", "--server.port", "80"]
+CMD ["streamlit", "run", "Main_Page.py", "--server.port", "80"]

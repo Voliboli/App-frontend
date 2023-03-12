@@ -38,7 +38,7 @@ def processing_statistics(file, debug):
         print("Failed processing PDF!")
         return None
 
-with open('auth.yaml') as file:
+with open('auth/auth.yaml') as file:
     config = yaml.load(file, Loader=yaml.loader.SafeLoader)
 authenticator = stauth.Authenticate(
     config['credentials'],

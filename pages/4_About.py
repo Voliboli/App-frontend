@@ -15,7 +15,7 @@ stp.show_pages(
 )
 st.sidebar.image("assets/Voliboli.jpg", use_column_width=True)
 
-with open('auth.yaml') as file:
+with open('auth/auth.yaml') as file:
     config = yaml.load(file, Loader=yaml.loader.SafeLoader)
 authenticator = stauth.Authenticate(
     config['credentials'],
