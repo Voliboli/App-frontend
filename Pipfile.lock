@@ -827,11 +827,11 @@
         },
         "voliboli-pdf-scraper": {
             "hashes": [
-                "sha256:2e4babc927144e0041dd587acdfe805c912acb33966bde3cc2549f0a95a27216",
-                "sha256:d70dc08e53747bf03fbe4df5dcd068b57be7c11415d879e5563d99c0c3ae43ec"
+                "sha256:a7cd323f177af4f1796f27afd8050c67e10159497791f804bdb0274135657e77",
+                "sha256:cd419cb23bcb8ff1eb25caced24676405075692ae2faf35835fc3d3aed9ba436"
             ],
             "index": "pypi",
-            "version": "==1.3"
+            "version": "==1.4"
         },
         "watchdog": {
             "hashes": [

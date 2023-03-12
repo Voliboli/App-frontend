@@ -3,7 +3,7 @@ FROM python:3.10-slim-buster
 RUN pip3 install pipenv
 RUN apt update && apt install -y default-jre && rm -rf /var/lib/apt/lists/*
 
-ENV PROJECT_DIR /usr/src/voliboli_api
+ENV PROJECT_DIR /usr/src/voliboli
 
 WORKDIR ${PROJECT_DIR}
 

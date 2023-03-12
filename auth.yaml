@@ -12,14 +12,6 @@ credentials:
       email: katjusa.mohoric@gmail.com
       name: Katjusa
       password: $2b$12$W8TMH2CGL4AzpBfSk01if.NoMVD1YhGsrsyC2SQR1gs/cxDw9FgJq
-    teodor:
-      email: tp7220@student.uni-lj.si
-      name: Teodor
-      password: $2b$12$P83XRRUzPcbvNEHD.1rMIOuMRt/DEDTt8KjKbnunCQtV.XuktLcwK
-    tp4348:
-      email: tp4348@student.uni-lj.si
-      name: Teo
-      password: $2b$12$wZ2uC9bTrjsllwiLbvq/puHduZFGT7EapZ2JyeVRhWfXgHGonyEaO
 preauthorized:
   emails:
   - teo.podobnik1234@gmail.com
