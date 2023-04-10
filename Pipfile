@@ -13,6 +13,9 @@ pyyaml = "==6.0"
 streamlit-authenticator = "==0.2.1"
 streamlit-timeline = "==0.0.2"
 voliboli-pdf-scraper = "*"
+requests = "*"
+sgqlc = "*"
+voliboli-sgqlc-types = "*"
 
 [dev-packages]
 
