@@ -88,7 +88,6 @@ if st.session_state["authentication_status"]:
             out.append(e)
         return out
 
-    # TODO: retrieve only men teams
     votes = unpack_stats(player_stat["votes"])
     total_points = unpack_stats(player_stat["totalPoints"])
     break_points = unpack_stats(player_stat["breakPoints"])
@@ -106,6 +105,7 @@ if st.session_state["authentication_status"]:
     pts_attacks = unpack_stats(player_stat["pointsAttack"])
     perc_attacks = unpack_stats2(player_stat["posAttack"])
     pts_blocks = unpack_stats(player_stat["pointsBlock"])
+    opponents = unpack_stats(player_stat["opponent"])
     n_stat = len(votes)
     
     columns1 = ["Total Points",
@@ -125,11 +125,15 @@ if st.session_state["authentication_status"]:
     for col in columns1:
         for _ in range(n_stat):
             categories1.append(col)
+    groups1 = []
+    for opp in opponents:
+        for _ in range(len(columns1)):
+            groups1.append(opp)
     values1 = total_points + break_points + total_serves + serve_errors + \
                 serve_points + total_receptions + error_receptions + total_attacks + \
                 error_attacks + block_attacks + pts_attacks + pts_blocks
     source1 = pd.DataFrame({"Category":list(categories1),
-                            "Group":player, # TODO: Replace with oponnent name!
+                            "Group":groups1,
                             "Value":values1})
     chart1 = alt.Chart(source1).mark_bar().encode(
         x="Category:N",
@@ -146,9 +150,14 @@ if st.session_state["authentication_status"]:
     for col in columns2:
         for _ in range(n_stat):
             categories2.append(col)
+
+    groups2 = []
+    for opp in opponents:
+        for _ in range(len(columns2)):
+            groups2.append(opp)
     values2 = pos_receptions + exc_receptions + perc_attacks
     source2 = pd.DataFrame({"Category":list(categories2),
-                            "Group":player,
+                            "Group":groups2,
                             "Value":values2})
     chart2 = alt.Chart(source2).mark_bar().encode(
         x=alt.X('Value:Q', axis=alt.Axis(format='%')),
@@ -163,9 +172,13 @@ if st.session_state["authentication_status"]:
     for col in columns3:
         for _ in range(n_stat):
             categories3.append(col)
+    groups3 = []
+    for opp in opponents:
+        for _ in range(len(columns3)):
+            groups3.append(opp)
     values3 = wl_points
     source3 = pd.DataFrame({"Category":list(categories3),
-                            "Group":player,
+                            "Group":groups3,
                             "Value":values3})
 
     chart3 = alt.Chart(source3).mark_bar().encode(
