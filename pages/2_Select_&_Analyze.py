@@ -67,6 +67,17 @@ if st.session_state["authentication_status"]:
     q3.getPlayer(name=player)
     resp = requests.post(BASE + "/players", json={'query': str(q3)})
     player_stat = resp.json()["data"]["getPlayer"]["player"]
+    st.write(player_stat)
+
+    def unpack_stats2(stat):
+        tmp = stat.split(",")
+        out = []
+        for e in tmp:
+            e = e.replace("(", "").replace(")", "").replace("%", "").strip()
+            if e == '.':
+                e = '0'
+            out.append(str(int(e)/100))
+        return out       
 
     def unpack_stats(stat):
         tmp = stat.split(",")
@@ -77,7 +88,7 @@ if st.session_state["authentication_status"]:
             out.append(e)
         return out
 
-    # TODO: popravi statse - ne kažejo pravilno!
+    # TODO: retrieve only men teams
     votes = unpack_stats(player_stat["votes"])
     total_points = unpack_stats(player_stat["totalPoints"])
     break_points = unpack_stats(player_stat["breakPoints"])
@@ -87,16 +98,17 @@ if st.session_state["authentication_status"]:
     serve_points = unpack_stats(player_stat["pointsServe"])
     total_receptions = unpack_stats(player_stat["totalReception"])
     error_receptions = unpack_stats(player_stat["errorReception"])
-    pos_receptions = unpack_stats(player_stat["posReception"])
-    exc_receptions = unpack_stats(player_stat["excReception"])
+    pos_receptions = unpack_stats2(player_stat["posReception"])
+    exc_receptions = unpack_stats2(player_stat["excReception"])
     total_attacks = unpack_stats(player_stat["totalAttacks"])
     error_attacks = unpack_stats(player_stat["errorAttacks"])
     block_attacks = unpack_stats(player_stat["blockedAttacks"])
     pts_attacks = unpack_stats(player_stat["pointsAttack"])
+    perc_attacks = unpack_stats2(player_stat["posAttack"])
+    pts_blocks = unpack_stats(player_stat["pointsBlock"])
     n_stat = len(votes)
     
-    columns1 = ["Votes",
-                "Total Points",
+    columns1 = ["Total Points",
                 "Break Points",
                 "Total Serves",
                 "Serve Errors",
@@ -106,7 +118,8 @@ if st.session_state["authentication_status"]:
                 "Total Attacks",
                 "Attack Errors",
                 "Blocked Attacks",
-                "Attack Points"]
+                "Attack Points",
+                "Block points"]
     
     categories1 = []
     for col in columns1:
@@ -114,10 +127,10 @@ if st.session_state["authentication_status"]:
             categories1.append(col)
     values1 = total_points + break_points + total_serves + serve_errors + \
                 serve_points + total_receptions + error_receptions + total_attacks + \
-                error_attacks + block_attacks + pts_attacks + block_attacks
+                error_attacks + block_attacks + pts_attacks + pts_blocks
     source1 = pd.DataFrame({"Category":list(categories1),
-                        "Group":player, # TODO: Replace with oponnent name!
-                        "Value":values1})
+                            "Group":player, # TODO: Replace with oponnent name!
+                            "Value":values1})
     chart1 = alt.Chart(source1).mark_bar().encode(
         x="Category:N",
         y="Value:Q",
@@ -126,8 +139,6 @@ if st.session_state["authentication_status"]:
     )
     st.altair_chart(chart1, use_container_width=True, theme="streamlit")
 
-    # TODO: manjka Attack percentage
-    '''
     columns2 = ["Positive Reception",
                 "Excellent Reception",
                 "Attack Efficiency"]
@@ -136,10 +147,9 @@ if st.session_state["authentication_status"]:
         for _ in range(n_stat):
             categories2.append(col)
     values2 = pos_receptions + exc_receptions + perc_attacks
-    players_seq2 = selection * len(columns2)
     source2 = pd.DataFrame({"Category":list(categories2),
-                        "Group":list(players_seq2),
-                        "Value":values2})
+                            "Group":player,
+                            "Value":values2})
     chart2 = alt.Chart(source2).mark_bar().encode(
         x=alt.X('Value:Q', axis=alt.Axis(format='%')),
         y="Category:N",
@@ -147,7 +157,6 @@ if st.session_state["authentication_status"]:
         color="Group:N"
     )
     st.altair_chart(chart2, use_container_width=True, theme="streamlit")
-    '''
 
     columns3 = ["W-L Points"]
     categories3 = []
@@ -156,8 +165,8 @@ if st.session_state["authentication_status"]:
             categories3.append(col)
     values3 = wl_points
     source3 = pd.DataFrame({"Category":list(categories3),
-                        "Group":player,
-                        "Value":values3})
+                            "Group":player,
+                            "Value":values3})
 
     chart3 = alt.Chart(source3).mark_bar().encode(
         x="Category:N",
