@@ -225,8 +225,8 @@ if st.session_state["authentication_status"]:
                 color="Group:N",
                 xOffset="Group:N",
             )
-
             st.altair_chart(chart3, use_container_width=True, theme="streamlit")
+            
 elif st.session_state["authentication_status"] is False:
     name, authentication_status, username = authenticator.login('Login', 'sidebar')
     st.sidebar.error('Username/password is incorrect')
