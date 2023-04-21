@@ -1,5 +1,7 @@
 # Voliboli frontend
 
+![image](https://user-images.githubusercontent.com/48418580/233640655-66196235-f662-45b1-a668-dd69e2b5afa0.png)
+
 ## Dependencies
 
 The only prerequisite is to have installed the following tools:
