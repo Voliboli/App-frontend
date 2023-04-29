@@ -1,37 +1,25 @@
-import yaml
 import st_pages as stp
-import streamlit_authenticator as stauth
 import streamlit as st
 
 st.set_page_config(page_title="Main Page", page_icon="🏠", layout="wide", initial_sidebar_state="auto")
 
 stp.show_pages(
     [
-        stp.Page("Main_Page.py", "Main Page", "🏠"),
+        stp.Page("pages/Main_Page.py", "Main Page", "🏠"),
         stp.Page("pages/1_Upload_&_Visualize.py", "Upload & Visualize", "📄"),
         stp.Page("pages/2_Select_&_Analyze.py", "Select & Analyze", "🏆"),
         stp.Page("pages/3_Register.py", "Register", "🔒"),
         stp.Page("pages/4_About.py", "About", "💡")
     ]
 )
+
 st.sidebar.image("assets/Voliboli.jpg", use_column_width=True)
 
-with open('auth/auth.yaml') as file:
-    config = yaml.load(file, Loader=yaml.loader.SafeLoader)
-
-authenticator = stauth.Authenticate(
-    config['credentials'],
-    config['cookie']['name'],
-    config['cookie']['key'],
-    config['cookie']['expiry_days'],
-    config['preauthorized']
-)
-authenticator._check_cookie() # NOTE: bug in the imported library (need to call it manually)
-
-if st.session_state["authentication_status"]:
-    authenticator.logout('Logout', 'sidebar')
-else:
-    name, authentication_status, username = authenticator.login('Login', 'sidebar')
+# st_pages conflict with the streamlit_authenticator library, causing the initial popup error saying something like: 
+# "The requested page does not exist. Loading default app's page"
+# As a workaround, there's an app.py page, that doesn't use streamlit_authenticator app, which hides the login prompt on the sidebar
+# But if the user clicks on the Main Page icon on the sidebar, this appears because the Main_Page.py is called and not the app.py
+# app.py only ran at the beginning 
 
 st.title("Main Page 🏠")
 st.write("Welcome to our Web application for volleyball enthusiasts! \

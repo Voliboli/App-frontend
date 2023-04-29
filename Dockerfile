@@ -16,4 +16,4 @@ COPY . .
 
 EXPOSE 80
 
-CMD ["streamlit", "run", "Main_Page.py", "--server.port", "80"]
+CMD ["streamlit", "run", "app.py", "--server.port", "80"]
