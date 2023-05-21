@@ -56,7 +56,7 @@ if st.session_state["authentication_status"]:
     st.write("To view and analyze the statistics of your PDF files, please upload one or multiple documents by selecting or drag-dropping files into the denoted area. \
              Once your files are uploaded, our analysis tools will provide you with a detailed breakdown of the document's statistics. ")
     st.warning("Current app version only supports statistics from Slovenian Volleyball League (1A.DOL), including both men's and women's divisions.\n \
-                To access these statistics, you can download them from the [OZS Datavolley webpage](https://ozs-web.dataproject.com/MainHome.aspx).\n \
+                To access these statistics, you can download them from the [OZS Datavolley webpage](https://ozs-web.dataproject.com/MainHome.aspx). An example of the statistics would be a match between [Calcit Volley & ACH Volley](https://ozs-web.dataproject.com/MatchStatistics.aspx?mID=9949&ID=88&CID=1188&PID=131&type=LegList).\n \
                 If you encounter any issues or would like to request a new feature, please don't hesitate to contact me at teo.podobnik1234@gmail.com.")
     uploaded_files = st.file_uploader(label="**Upload PDF files**", type=['pdf'], accept_multiple_files=True)
     if uploaded_files is not None:
