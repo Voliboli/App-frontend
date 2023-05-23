@@ -20,7 +20,7 @@ stp.show_pages(
 st.sidebar.image("assets/Voliboli.jpg", use_column_width=True)
 
 session = requests.Session()
-BASE = "http://172.35.1.3:5000"
+BASE = "http://172.35.0.1:5000"
 
 with open('auth/auth.yaml') as file:
     config = yaml.load(file, Loader=yaml.loader.SafeLoader)
@@ -51,144 +51,147 @@ if st.session_state["authentication_status"]:
     team = st.selectbox("Select Team: ", teams)
 
     # TODO: For some weird reason, the subsequent queries also retrieve the previous query results
-    q2 = Operation(Query)
-    q2.getTeam(name=team).__to_graphql__(auto_select_depth=5)
-    resp = requests.post(BASE + "/teams", json={'query': str(q2.__to_graphql__(auto_select_depth=3))})
-    p = resp.json()
-    players = []
-    player_names = []
-    for player in p["data"]["getTeam"]["team"]["players"]:
-        players.append(player)
-        player_names.append(player["name"])
+    if team:
+        q2 = Operation(Query)
+        q2.getTeam(name=team).__to_graphql__(auto_select_depth=5)
+        resp = requests.post(BASE + "/teams", json={'query': str(q2.__to_graphql__(auto_select_depth=3))})
+        p = resp.json()
+        players = []
+        player_names = []
+        for player in p["data"]["getTeam"]["team"]["players"]:
+            players.append(player)
+            player_names.append(player["name"])
 
-    player = st.selectbox(f"Select Player from {team}: ", player_names)
+        player = st.selectbox(f"Select Player from {team}: ", player_names)
 
-    q3 = Operation(Query)
-    q3.getPlayer(name=player)
-    resp = requests.post(BASE + "/players", json={'query': str(q3)})
-    player_stat = resp.json()["data"]["getPlayer"]["player"]
-    st.write(player_stat)
+        q3 = Operation(Query)
+        q3.getPlayer(name=player)
+        resp = requests.post(BASE + "/players", json={'query': str(q3)})
+        player_stat = resp.json()["data"]["getPlayer"]["player"]
+        st.write(player_stat)
 
-    def unpack_stats2(stat):
-        tmp = stat.split(",")
-        out = []
-        for e in tmp:
-            e = e.replace("(", "").replace(")", "").replace("%", "").strip()
-            if e == '.':
-                e = '0'
-            out.append(str(int(e)/100))
-        return out       
+        def unpack_stats2(stat):
+            tmp = stat.split(",")
+            out = []
+            for e in tmp:
+                e = e.replace("(", "").replace(")", "").replace("%", "").strip()
+                if e == '.':
+                    e = '0'
+                out.append(str(int(e)/100))
+            return out       
 
-    def unpack_stats(stat):
-        tmp = stat.split(",")
-        out = []
-        for e in tmp:
-            if e == '.':
-                e = '0'
-            out.append(e)
-        return out
+        def unpack_stats(stat):
+            tmp = stat.split(",")
+            out = []
+            for e in tmp:
+                if e == '.':
+                    e = '0'
+                out.append(e)
+            return out
 
-    votes = unpack_stats(player_stat["votes"])
-    total_points = unpack_stats(player_stat["totalPoints"])
-    break_points = unpack_stats(player_stat["breakPoints"])
-    wl_points = unpack_stats(player_stat["winloss"])
-    total_serves = unpack_stats(player_stat["totalServe"])
-    serve_errors = unpack_stats(player_stat["errorServe"])
-    serve_points = unpack_stats(player_stat["pointsServe"])
-    total_receptions = unpack_stats(player_stat["totalReception"])
-    error_receptions = unpack_stats(player_stat["errorReception"])
-    pos_receptions = unpack_stats2(player_stat["posReception"])
-    exc_receptions = unpack_stats2(player_stat["excReception"])
-    total_attacks = unpack_stats(player_stat["totalAttacks"])
-    error_attacks = unpack_stats(player_stat["errorAttacks"])
-    block_attacks = unpack_stats(player_stat["blockedAttacks"])
-    pts_attacks = unpack_stats(player_stat["pointsAttack"])
-    perc_attacks = unpack_stats2(player_stat["posAttack"])
-    pts_blocks = unpack_stats(player_stat["pointsBlock"])
-    opponents = unpack_stats(player_stat["opponent"])
-    n_stat = len(votes)
-    
-    columns1 = ["Total Points",
-                "Break Points",
-                "Total Serves",
-                "Serve Errors",
-                "Serve Points",
-                "Total Receptions",
-                "Reception Errors",
-                "Total Attacks",
-                "Attack Errors",
-                "Blocked Attacks",
-                "Attack Points",
-                "Block points"]
-    
-    categories1 = []
-    for col in columns1:
-        for _ in range(n_stat):
-            categories1.append(col)
-    groups1 = []
-    for opp in opponents:
+        votes = unpack_stats(player_stat["votes"])
+        total_points = unpack_stats(player_stat["totalPoints"])
+        break_points = unpack_stats(player_stat["breakPoints"])
+        wl_points = unpack_stats(player_stat["winloss"])
+        total_serves = unpack_stats(player_stat["totalServe"])
+        serve_errors = unpack_stats(player_stat["errorServe"])
+        serve_points = unpack_stats(player_stat["pointsServe"])
+        total_receptions = unpack_stats(player_stat["totalReception"])
+        error_receptions = unpack_stats(player_stat["errorReception"])
+        pos_receptions = unpack_stats2(player_stat["posReception"])
+        exc_receptions = unpack_stats2(player_stat["excReception"])
+        total_attacks = unpack_stats(player_stat["totalAttacks"])
+        error_attacks = unpack_stats(player_stat["errorAttacks"])
+        block_attacks = unpack_stats(player_stat["blockedAttacks"])
+        pts_attacks = unpack_stats(player_stat["pointsAttack"])
+        perc_attacks = unpack_stats2(player_stat["posAttack"])
+        pts_blocks = unpack_stats(player_stat["pointsBlock"])
+        opponents = unpack_stats(player_stat["opponent"])
+        n_stat = len(votes)
+        
+        columns1 = ["Total Points",
+                    "Break Points",
+                    "Total Serves",
+                    "Serve Errors",
+                    "Serve Points",
+                    "Total Receptions",
+                    "Reception Errors",
+                    "Total Attacks",
+                    "Attack Errors",
+                    "Blocked Attacks",
+                    "Attack Points",
+                    "Block points"]
+        
+        # Number of columns per category
+        categories1 = []
+        for col in columns1:
+            for _ in range(n_stat):
+                categories1.append(col)
+
+        groups1 = []
         for _ in range(len(columns1)):
-            groups1.append(opp)
-    values1 = total_points + break_points + total_serves + serve_errors + \
-                serve_points + total_receptions + error_receptions + total_attacks + \
-                error_attacks + block_attacks + pts_attacks + pts_blocks
-    source1 = pd.DataFrame({"Category":list(categories1),
-                            "Group":groups1,
-                            "Value":values1})
-    chart1 = alt.Chart(source1).mark_bar().encode(
-        x="Category:N",
-        y="Value:Q",
-        xOffset="Group:N",
-        color="Group:N"
-    )
-    st.altair_chart(chart1, use_container_width=True, theme="streamlit")
+            for opp in opponents:
+                groups1.append(opp)
+        values1 = total_points + break_points + total_serves + serve_errors + \
+                    serve_points + total_receptions + error_receptions + total_attacks + \
+                    error_attacks + block_attacks + pts_attacks + pts_blocks
+        source1 = pd.DataFrame({"Category":list(categories1),
+                                "Group":groups1,
+                                "Value":values1})
+        chart1 = alt.Chart(source1).mark_bar().encode(
+            x="Category:N",
+            y="Value:Q",
+            xOffset="Group:N",
+            color="Group:N"
+        )
+        st.altair_chart(chart1, use_container_width=True, theme="streamlit")
 
-    columns2 = ["Positive Reception",
-                "Excellent Reception",
-                "Attack Efficiency"]
-    categories2 = []
-    for col in columns2:
-        for _ in range(n_stat):
-            categories2.append(col)
+        columns2 = ["Positive Reception",
+                    "Excellent Reception",
+                    "Attack Efficiency"]
+        categories2 = []
+        for col in columns2:
+            for _ in range(n_stat):
+                categories2.append(col)
 
-    groups2 = []
-    for opp in opponents:
+        groups2 = []
         for _ in range(len(columns2)):
-            groups2.append(opp)
-    values2 = pos_receptions + exc_receptions + perc_attacks
-    source2 = pd.DataFrame({"Category":list(categories2),
-                            "Group":groups2,
-                            "Value":values2})
-    chart2 = alt.Chart(source2).mark_bar().encode(
-        x=alt.X('Value:Q', axis=alt.Axis(format='%')),
-        y="Category:N",
-        yOffset="Group:N",
-        color="Group:N"
-    )
-    st.altair_chart(chart2, use_container_width=True, theme="streamlit")
+            for opp in opponents:
+                groups2.append(opp)
+        values2 = pos_receptions + exc_receptions + perc_attacks
+        source2 = pd.DataFrame({"Category":list(categories2),
+                                "Group":groups2,
+                                "Value":values2})
+        chart2 = alt.Chart(source2).mark_bar().encode(
+            x=alt.X('Value:Q', axis=alt.Axis(format='%')),
+            y="Category:N",
+            yOffset="Group:N",
+            color="Group:N"
+        )
+        st.altair_chart(chart2, use_container_width=True, theme="streamlit")
 
-    columns3 = ["W-L Points"]
-    categories3 = []
-    for col in columns3:
-        for _ in range(n_stat):
-            categories3.append(col)
-    groups3 = []
-    for opp in opponents:
+        columns3 = ["W-L Points"]
+        categories3 = []
+        for col in columns3:
+            for _ in range(n_stat):
+                categories3.append(col)
+        groups3 = []
         for _ in range(len(columns3)):
-            groups3.append(opp)
-    values3 = wl_points
-    source3 = pd.DataFrame({"Category":list(categories3),
-                            "Group":groups3,
-                            "Value":values3})
+            for opp in opponents:
+                groups3.append(opp)
+        values3 = wl_points
+        source3 = pd.DataFrame({"Category":list(categories3),
+                                "Group":groups3,
+                                "Value":values3})
 
-    chart3 = alt.Chart(source3).mark_bar().encode(
-        x="Category:N",
-        y="Value:Q",
-        color="Group:N",
-        xOffset="Group:N",
-    )
+        chart3 = alt.Chart(source3).mark_bar().encode(
+            x="Category:N",
+            y="Value:Q",
+            color="Group:N",
+            xOffset="Group:N",
+        )
 
-    st.altair_chart(chart3, use_container_width=True, theme="streamlit")
+        st.altair_chart(chart3, use_container_width=True, theme="streamlit")
 
 elif st.session_state["authentication_status"] is False:
     name, authentication_status, username = authenticator.login('Login', 'sidebar')
