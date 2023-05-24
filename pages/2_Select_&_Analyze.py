@@ -20,7 +20,7 @@ stp.show_pages(
 st.sidebar.image("assets/Voliboli.jpg", use_column_width=True)
 
 session = requests.Session()
-BASE = "http://172.35.0.1:5000"
+BASE = "http://voliboli-backend:5000"
 
 with open('auth/auth.yaml') as file:
     config = yaml.load(file, Loader=yaml.loader.SafeLoader)
@@ -50,7 +50,6 @@ if st.session_state["authentication_status"]:
 
     team = st.selectbox("Select Team: ", teams)
 
-    # TODO: For some weird reason, the subsequent queries also retrieve the previous query results
     if team:
         q2 = Operation(Query)
         q2.getTeam(name=team).__to_graphql__(auto_select_depth=5)
@@ -68,7 +67,14 @@ if st.session_state["authentication_status"]:
         q3.getPlayer(name=player)
         resp = requests.post(BASE + "/players", json={'query': str(q3)})
         player_stat = resp.json()["data"]["getPlayer"]["player"]
-        st.write(player_stat)
+
+        def unpack_stats3(stat):
+            tmp = stat.split(",")
+            out = []
+            for e in tmp:
+                e = e.replace("[", "").replace("]", "").replace("'", "").strip()
+                out.append(e)
+            return out  
 
         def unpack_stats2(stat):
             tmp = stat.split(",")
@@ -108,6 +114,11 @@ if st.session_state["authentication_status"]:
         pts_blocks = unpack_stats(player_stat["pointsBlock"])
         opponents = unpack_stats(player_stat["opponent"])
         n_stat = len(votes)
+        dates = unpack_stats3(player_stat["date"])
+
+        legend = []
+        for opp, date in zip(opponents, dates):
+            legend.append(f"{opp} ({date})")
         
         columns1 = ["Total Points",
                     "Break Points",
@@ -130,8 +141,8 @@ if st.session_state["authentication_status"]:
 
         groups1 = []
         for _ in range(len(columns1)):
-            for opp in opponents:
-                groups1.append(opp)
+            for l in legend:
+                groups1.append(l)
         values1 = total_points + break_points + total_serves + serve_errors + \
                     serve_points + total_receptions + error_receptions + total_attacks + \
                     error_attacks + block_attacks + pts_attacks + pts_blocks
@@ -156,8 +167,8 @@ if st.session_state["authentication_status"]:
 
         groups2 = []
         for _ in range(len(columns2)):
-            for opp in opponents:
-                groups2.append(opp)
+            for l in legend:
+                groups2.append(l)
         values2 = pos_receptions + exc_receptions + perc_attacks
         source2 = pd.DataFrame({"Category":list(categories2),
                                 "Group":groups2,
@@ -177,8 +188,8 @@ if st.session_state["authentication_status"]:
                 categories3.append(col)
         groups3 = []
         for _ in range(len(columns3)):
-            for opp in opponents:
-                groups3.append(opp)
+            for l in legend:
+                groups3.append(l)
         values3 = wl_points
         source3 = pd.DataFrame({"Category":list(categories3),
                                 "Group":groups3,

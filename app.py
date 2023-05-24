@@ -33,9 +33,9 @@ st.markdown(
     ### ⚡ Use Cases:
     **Feature**|**Description**
     -----|-----
-    |Player| **Select & Analyze** individual player statistics throughout the season|
-    |Comparison| **Compare & Evaluate** players statistics against one another|
-    |Game| **Upload & Visualize** game statistics using visually appealing graphs.|
+    |Player| **Select & Analyze**: Explore individual player statistics throughout the season.|
+    |Comparison| **Compare & Evaluate**:  Evaluate players' statistics by comparing them against one another.|
+    |Game| **Upload & Visualize**: Upload and visualize game statistics using visually appealing graphs.|
     """
 )
 st.text("")
@@ -43,9 +43,8 @@ st.markdown(
     """
         ### 💪 Challenge:
         ##### Here's why you might find this platform useful:
-        - You can how a certain individual perfomance was changing througout the season
-        - You can interact with graphs instead of the usual static statistics on the PDF
-        - You can compare different players and how they performed against the same opponent
-        - etc.
+        - Track the dynamic changes in an individual's performance throughout the season, allowing you to witness their progress firsthand.
+        - Engage with interactive graphs that bring statistics to life, providing a richer experience compared to traditional static PDF data.
+        - Conduct insightful player comparisons, examining how different individuals performed against the same opponent, providing valuable insights into their strengths and weaknesses.
     """
 )
