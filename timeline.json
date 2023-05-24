@@ -14,6 +14,21 @@
           "headline": "Launch Day",
           "text": "<p>I am a one-man team and still a student. I am still trying to figure out how this app will fit in the world, but I am looking forward to the journey.</p>"
         }
+      },
+      {
+        "media": {
+          "url": "https://drive.google.com/file/d/1V12ImD-kqFiAC0i2Cpp_rkpweTSxC7rH/view?usp=sharing",
+          "caption": "Grupa Azoty ZAKSA Kędzierzyn-Koźle winning CEV Champions League 2023"
+        },
+        "start_date": {
+          "month": "5",
+          "day": "20",
+          "year": "2023"
+        },
+        "text": {
+          "headline": "Select & Analyze Release Day",
+          "text": "<p>On this significant day, we are thrilled to unveil a groundbreaking feature known as 'Select & Analyze.' With this remarkable addition, users gain the power to navigate an extensive player database, enabling them to effortlessly explore and delve into comprehensive statistics spanning the entire season.</p>"
+        }
       }
     ]
 }
