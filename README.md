@@ -22,3 +22,7 @@ You can run this project using:
 
 For frontend we use Streamlit that simplifies the design of webpage by providing various pre-created templates one can use. 
 The main page of the Web Page already provides you with a significant information about what and how you can use the application.
+
+## NOTE
+
+work in progress
