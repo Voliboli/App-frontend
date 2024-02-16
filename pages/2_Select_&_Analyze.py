@@ -20,7 +20,7 @@ stp.show_pages(
 st.sidebar.image("assets/Voliboli.jpg", use_column_width=True)
 
 session = requests.Session()
-BASE = "http://voliboli-backend:5000"
+BASE = "http://voliboli-backend.voliboli.svc.cluster.local:80"
 
 with open('auth/auth.yaml') as file:
     config = yaml.load(file, Loader=yaml.loader.SafeLoader)
