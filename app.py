@@ -8,7 +8,7 @@ stp.show_pages(
         stp.Page("pages/Main_Page.py", "Main Page", "🏠"),
         stp.Page("pages/1_Upload_&_Visualize.py", "Upload & Visualize", "📄"),
         stp.Page("pages/2_Select_&_Analyze.py", "Select & Analyze", "🏆"),
-        stp.Page("pages/3_Register.py", "Register", "🔒"),
+        #stp.Page("pages/3_Register.py", "Register", "🔒"),
         stp.Page("pages/4_About.py", "About", "💡")
     ]
 )

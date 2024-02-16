@@ -10,29 +10,12 @@ stp.show_pages(
         stp.Page("pages/Main_Page.py", "Main Page", "🏠"),
         stp.Page("pages/1_Upload_&_Visualize.py", "Upload & Visualize", "📄"),
         stp.Page("pages/2_Select_&_Analyze.py", "Select & Analyze", "🏆"),
-        stp.Page("pages/3_Register.py", "Register", "🔒"),
+        #stp.Page("pages/3_Register.py", "Register", "🔒"),
         stp.Page("pages/4_About.py", "About", "💡")
     ]
 )
 
 st.sidebar.image("assets/Voliboli.jpg", use_column_width=True)
-
-with open('auth/auth.yaml') as file:
-    config = yaml.load(file, Loader=yaml.loader.SafeLoader)
-
-authenticator = stauth.Authenticate(
-    config['credentials'],
-    config['cookie']['name'],
-    config['cookie']['key'],
-    config['cookie']['expiry_days'],
-    config['preauthorized']
-)
-authenticator._check_cookie() # NOTE: bug in the imported library (need to call it manually)
-
-if st.session_state["authentication_status"]:
-    authenticator.logout('Logout', 'sidebar')
-else:
-    name, authentication_status, username = authenticator.login('Login', 'sidebar')
 
 st.title("Main Page 🏠")
 st.write("Welcome to our Web application for volleyball enthusiasts! \
